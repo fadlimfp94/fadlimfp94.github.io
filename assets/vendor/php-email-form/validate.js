@@ -56,6 +56,7 @@
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
     .then(response => {
+      console.log(response);
       if( response.ok ) {
         return response.text();
       } else {
@@ -64,7 +65,9 @@
     })
     .then(data => {
       thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
+      console.log(data);
+      //if (data.trim() == 'OK') {
+        if (JSON.parse(data).ok) {
         thisForm.querySelector('.sent-message').classList.add('d-block');
         thisForm.reset(); 
       } else {
