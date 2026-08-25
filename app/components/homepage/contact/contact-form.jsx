@@ -1,14 +1,13 @@
 "use client";
 // @flow strict
 import { isValidEmail } from "@/utils/check-email";
-import axios from "axios";
+import { personalData } from "@/utils/data/personal-data";
 import { useState } from "react";
 import { TbMailForward } from "react-icons/tb";
 import { toast } from "react-toastify";
 
 function ContactForm() {
   const [error, setError] = useState({ email: false, required: false });
-  const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     name: "",
     email: "",
@@ -21,7 +20,7 @@ function ContactForm() {
     }
   };
 
-  const handleSendMail = async (e) => {
+  const handleSendMail = (e) => {
     e.preventDefault();
 
     if (!userInput.email || !userInput.message || !userInput.name) {
@@ -31,26 +30,16 @@ function ContactForm() {
       return;
     } else {
       setError({ ...error, required: false });
-    };
+    }
 
-    try {
-      setIsLoading(true);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/contact`,
-        userInput
-      );
+    const subject = encodeURIComponent(`Message from ${userInput.name} via Portfolio`);
+    const body = encodeURIComponent(
+      `Name: ${userInput.name}\nEmail: ${userInput.email}\n\nMessage:\n${userInput.message}`
+    );
+    const mailtoUrl = `mailto:${personalData.email}?subject=${subject}&body=${body}`;
 
-      toast.success("Message sent successfully!");
-      setUserInput({
-        name: "",
-        email: "",
-        message: "",
-      });
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    } finally {
-      setIsLoading(false);
-    };
+    window.location.href = mailtoUrl;
+    toast.success("Opening your email client...");
   };
 
   return (
@@ -110,16 +99,11 @@ function ContactForm() {
               className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold"
               role="button"
               onClick={handleSendMail}
-              disabled={isLoading}
             >
-              {
-                isLoading ?
-                <span>Sending Message...</span>:
-                <span className="flex items-center gap-1">
-                  Send Message
-                  <TbMailForward size={20} />
-                </span>
-              }
+              <span className="flex items-center gap-1">
+                Send Message
+                <TbMailForward size={20} />
+              </span>
             </button>
           </div>
         </div>
