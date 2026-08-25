@@ -13,6 +13,9 @@ export const metadata = {
   title: "Portfolio of Fadli - QA Engineer",
   description:
     "This is the portfolio of Fadli. I am a QA Engineer passionate about software quality, test automation, and continuous improvement.",
+  icons: {
+    icon: "data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+  },
 };
 
 export default function RootLayout({ children }) {
