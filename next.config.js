@@ -1,6 +1,8 @@
 const path = require('path')
 
 const isProd = process.env.NODE_ENV === 'production';
+// Karena repo adalah fadlimfp94.github.io (root user page), basePath dikosongkan.
+// Jika di kemudian hari memakai subpath repo, gunakan process.env.NEXT_PUBLIC_BASE_PATH
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 /** @type {import('next').NextConfig} */
